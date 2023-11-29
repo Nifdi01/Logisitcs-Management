@@ -21,4 +21,5 @@ from users.views import landing_page
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", landing_page, name='landing-page'),
+    path('users/', include('users.urls')),  # Use a prefix like 'users/'
 ]
