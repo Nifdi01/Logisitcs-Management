@@ -1,0 +1,1 @@
+python logistics_management\manage.py runserver
