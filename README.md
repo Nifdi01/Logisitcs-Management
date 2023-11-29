@@ -3,9 +3,10 @@
 
 Steps for running in local:
 1. Clone the repository
-2. Install the requirements using `pip install -r requirements.txt`
-3. Navigate to `Logisitcs-Management\logistics_management\run.cmd`
-4. Type `run` in command prompt (Windows) or `python manage.py runsevrer` (MacOS/Linux)
+2. Create a virtual environment
+3. Install the requirements using `pip install -r requirements.txt`
+4. Navigate to `Logisitcs-Management\logistics_management\run.cmd`
+5. Type `run` in command prompt (Windows) or `python manage.py runsevrer` (MacOS/Linux)
 
 ## Preview
 
