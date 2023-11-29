@@ -1,4 +1,4 @@
-# Logisitcs Management
+# Logistics Management
  Proposed Optimization for Logistics Management system with A* Algotrithm
 
 Steps for running in local:
