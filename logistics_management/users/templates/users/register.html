@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load tailwind_filters %}
+
+{% block title %}Create and account{% endblock title %}
+
+{% block content %}
+<section class="text-gray-600 body-font">
+    {% if user_form.errors %}
+        <div class="mx-auto text-red-600 bg-red-200 lg:w-2/6 md:w-1/2 rounded-lg p-2 flex flex-col w-full">
+            <p class="font-bold">Please correct the following errors:</p>
+            <ul>
+                {% for field in user_form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    <div class="container px-5 py-20 mx-auto flex flex-wrap items-center justify-center"> <!-- Added justify-center -->
+        <form action="{% url 'register' %}" method="post" class="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col w-full mt-10 md:mt-0">
+            {% csrf_token %}
+            <h2 class="text-gray-900 text-lg font-medium title-font mb-5 mx-auto">Sign Up</h2>
+            <div class="relative mb-4">
+                <label for="{{user_form.username.id_for_label}}" class="leading-7 text-sm text-gray-600">Username</label>
+                {{user_form.username|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}
+            </div>
+            <div class="relative mb-4">
+                <label for="{{user_form.first_name.id_for_label}}" class="leading-7 text-sm text-gray-600">First Name</label>
+                {{user_form.first_name|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}
+            </div>
+            <div class="relative mb-4">
+                <label for="{{user_form.first_name.id_for_label}}" class="leading-7 text-sm text-gray-600">Last Name</label>
+                {{user_form.last_name|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}
+            </div>
+            <div class="relative mb-4">
+                <label for="{{user_form.email.id_for_label}}" class="leading-7 text-sm text-gray-600">Email</label>
+                {{user_form.email|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}                
+            </div>
+            <div class="relative mb-4">
+                <label for="{{user_form.password.id_for_label}}" class="leading-7 text-sm text-gray-600">Password</label>
+                {{user_form.password|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}                                
+            </div>
+            <div class="relative mb-4">
+                <label for="{{user_form.password_repeat.id_for_label}}" class="leading-7 text-sm text-gray-600">Repeat Password</label>
+                {{user_form.password_repeat|add_tailwind_classes:"w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}}                                                
+            </div>
+            
+            <div class="relative mb-4">
+                <label for="{{user_form.gender.id_for_label}}" class="leading-7 text-sm text-gray-600">Gender</label>
+                {{ profile_form.gender }}                                                
+            </div>
+
+            <div class="relative mb-4">
+                <label for="{{user_form.age.id_for_label}}" class="leading-7 text-sm text-gray-600">Age</label>
+                {{ profile_form.age }}
+            </div>
+
+            <input type="submit" value="Create my account" class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"></button>
+            <p class="text-s text-gray-500 mt-3">If you have an account the please <a class='text-indigo-500' href="{% url 'login' %}">Login</a></p>           
+        </form>
+    </div>
+</section>
+
+{% endblock content %}
