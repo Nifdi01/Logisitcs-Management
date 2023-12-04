@@ -7,24 +7,17 @@ class Driver(models.Model):
     last_name = models.CharField(max_length=30)
     
     def __str__(self):
-        return self.license_number
+        return f"{self.first_name} {self.last_name}"
 
 
 class Truck(models.Model):
     
-    STATUS_CHOICES = [
-        ("in queue", "in queue"),
-        ("in progress", "in progress"),
-        ("finihed", "finished")
-    ]
-    
     driver = models.OneToOneField(Driver, on_delete=models.CASCADE)
     license_plate = models.CharField(max_length=11, unique=True)    
     capacity = models.IntegerField()
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     
     def __str__(self):
-        return f"{self.license_number}"
+        return f"{self.license_plate}"
 
 
 class CargoOrder(models.Model):
@@ -39,7 +32,7 @@ class CargoOrder(models.Model):
         ("Aghdara", "Aghdara"),
         ("Babek", "Babek"),
         ("Baku", "Baku"),
-        ("Balakən", "Balakən"),
+        ("Balakən", "Balakən"), 
         ("Barda", "Barda"),
         ("Beylagan", "Beylagan"),
         ("Bilasuvar", "Bilasuvar"),
@@ -101,13 +94,16 @@ class CargoOrder(models.Model):
     start_point = models.CharField(
         max_length=50,
         choices=DESTINATION_CHOICES,
-        default="Baku"  # Set a default city if needed
+        default="Baku"
     )
         
     destination = models.CharField(
         max_length=50,
         choices=DESTINATION_CHOICES,
-        default="Baku"  # Set a default city if needed
+        default="Sumgayit"
     )
+    
+    def __str__(self):
+        return f"{self.start_point}-{self.destination}"
     
     
