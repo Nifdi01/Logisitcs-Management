@@ -38,6 +38,7 @@ STATICFILES_DIRS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'logistics.apps.LogisticsConfig',
     'users.apps.UsersConfig',
     "django.contrib.admin",
     "django.contrib.auth",
