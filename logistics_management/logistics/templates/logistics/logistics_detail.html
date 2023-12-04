@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  {{ cargo }}-{{ cargo.truck }}
+{% endblock %}
+
+{% block content %}
+  <section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 px-24 py-10 mx-auto">
+      <div class="lg:w-4/5 mx-auto flex flex-wrap">
+        <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+          <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{ cargo }}</h1>
+          <div class="flex mb-4">
+            <p class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">{{ driver }}</p>
+          </div>
+          <div class="flex border-gray-200 py-2">
+            <span class="text-gray-500">Driver License</span>
+            <span class="ml-auto text-gray-900">{{ driver_license }}</span>
+          </div>
+          <div class="flex border-t border-gray-200 py-2">
+            <span class="text-gray-500">License Plate</span>
+            <span class="ml-auto text-gray-900">{{ truck_plate }}</span>
+          </div>
+          <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+            <span class="text-gray-500">Capacity</span>
+            <span class="ml-auto text-gray-900">{{ truck_capacity }}.0 tons</span>
+          </div>
+          <p class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Route</p>
+          <div class="border-b p-2 w-2/3">
+            <p class="text-gray-500">Start Point: <span class="text-gray-600 font-bold">{{ start_point }}</span></p>
+          </div>
+          <div class="scroll-container h-64" style="overflow-y: auto;">
+            {% for city in shortest_path %}
+                <div class="border-b p-2 w-2/3">
+                    <span class="text-gray-500">Route {{ forloop.counter }}: {{ city }}</span>
+                </div>
+            {% endfor %}
+        </div>
+        
+          <div class="border-b p-2 w-2/3">
+            <p class="text-gray-500">Destination: <span class="text-gray-600 font-bold">{{ destination }}</span></p>
+          </div>
+          <div class="flex">
+            <button class="flex ml-auto text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Button</button>
+          </div>
+        </div>
+        <img alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded" src="{% static 'images/cargo_detail.svg' %}" />
+      </div>
+    </div>
+  </section>
+{% endblock %}
