@@ -16,52 +16,24 @@
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Driver</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">License Plate</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Capacity</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Start Point</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Destination</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
               <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
             </tr>
           </thead>
           <tbody>
+            {% for cargo in cargo_list %}  
             <tr>
-              <td class="px-4 py-3">Start</td>
-              <td class="px-4 py-3">5 Mb/s</td>
-              <td class="px-4 py-3">15 GB</td>
-              <td class="px-4 py-3 text-lg text-gray-900">Free</td>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-              <td class="border-t-2 border-b-2 border-gray-200 w-10 pr-5 text-center">
+              <td class="px-4 py-3">{{cargo.truck.driver}}</td>
+              <td class="px-4 py-3">{{cargo.truck}}</td>
+              <td class="px-4 py-3">{{cargo.truck.capacity}}.0 tons</td>
+              <td class="px-4 py-3 text-md text-gray-900">{{cargo.start_point}}</td>
+              <td class="border-gray-200 px-4 py-3 text-md text-gray-900">{{cargo.destination}}</td>
+              <td class="border-gray-200 w-10 pr-5 text-center">
                 <a href="">Details</a>
               </td>
             </tr>
-            <tr>
-              <td class="border-t-2 border-gray-200 px-4 py-3">Pro</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3">25 Mb/s</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3">25 GB</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$24</td>
-              <td class="border-t-2 border-b-2 border-gray-200 w-10 pr-5 text-center">
-                <a href="">Details</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="border-t-2 border-gray-200 px-4 py-3">Business</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3">36 Mb/s</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3">40 GB</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$50</td>
-              <td class="border-t-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$50</td>
-              <td class="border-t-2 border-b-2 border-gray-200 w-10 pr-5 text-center">
-                <a href="">Details</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">Exclusive</td>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">48 Mb/s</td>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3">120 GB</td>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-              <td class="border-t-2 border-b-2 border-gray-200 px-4 py-3 text-lg text-gray-900">$72</td>
-              <td class="border-t-2 border-b-2 border-gray-200 w-10 pr-5 text-center">
-                <a href="">Details</a>
-              </td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
