@@ -28,9 +28,11 @@
           </div>
           <p class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Route</p>
           <div class="border-b p-2 w-2/3">
-            <p class="text-gray-500">Start Point: <span class="text-gray-600 font-bold">{{ start_point }}</span></p>
+            <p class="text-gray-500">
+              Start Point: <span class="text-gray-600 font-bold">{{ start_point }}</span>
+            </p>
           </div>
-          <div class="scroll-container h-64" style="overflow-y: auto;">
+          <div class="scroll-container" {% if shortest_path|length > 4 %}style="max-height: 160px; overflow-y: auto;"{% endif %}>
             {% for city in shortest_path %}
                 <div class="border-b p-2 w-2/3">
                     <span class="text-gray-500">Route {{ forloop.counter }}: {{ city }}</span>
@@ -38,8 +40,11 @@
             {% endfor %}
         </div>
         
+
           <div class="border-b p-2 w-2/3">
-            <p class="text-gray-500">Destination: <span class="text-gray-600 font-bold">{{ destination }}</span></p>
+            <p class="text-gray-500">
+              Destination: <span class="text-gray-600 font-bold">{{ destination }}</span>
+            </p>
           </div>
           <div class="flex">
             <button class="flex ml-auto text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Button</button>
