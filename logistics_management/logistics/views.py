@@ -22,7 +22,8 @@ def logistics_detail(request, pk):
         "truck_capacity":cargo.truck.capacity,
         "start_point": cargo.start_point,
         "destination": cargo.destination,
-        "shortest_path": shortest_path[1:-1]
+        "shortest_path": shortest_path[1:-1],
+        "total_distance": int(calculate_cost(shortest_path))
     }
     
     return render(request, "logistics/logistics_detail.html", context=context)
@@ -49,6 +50,7 @@ def astar(graph, start_point, destination, coordinates):
 
     while priority_queue:
         cost, current, path = heapq.heappop(priority_queue)
+        print(cost)
 
         if current in visited:
             continue
@@ -67,15 +69,21 @@ def astar(graph, start_point, destination, coordinates):
 
     return None
 
+
+def calculate_cost(shortest_path):
+    total_distance = sum(graph[shortest_path[i]][shortest_path[i + 1]] for i in range(len(shortest_path) - 1))
+    return total_distance
+    
+
 graph = {
-    "Baku": {"Khirdalan": 5, "Binagadi": 7, "Lokbatan": 10, "Mardakan": 8, "Mingachevir": 15},
-    "Sumgait": {"Khirdalan": 3, "Mardakan": 6},
-    "Khirdalan": {"Sumgait": 3, "Baku": 5, "Binagadi": 4},
-    "Mardakan": {"Baku": 8, "Sumgait": 9},
-    "Lokbatan": {"Baku": 10},
-    "Binagadi": {"Khirdalan": 4, "Baku": 7},
-    "Mingachevir": {"Ganja": 7, "Baku": 15},
-    "Ganja": {"Mingachevir": 7}
+    "Baku": {"Khirdalan": 17, "Binagadi": 10, "Lokbatan": 21, "Mardakan": 22, "Mingachevir": 210},
+    "Sumgait": {"Khirdalan": 17, "Mardakan": 50},
+    "Khirdalan": {"Sumgait": 17, "Baku": 17, "Binagadi": 30},
+    "Mardakan": {"Baku": 22, "Sumgait": 50},
+    "Lokbatan": {"Baku": 21},
+    "Binagadi": {"Khirdalan": 30, "Baku": 10},
+    "Mingachevir": {"Ganja": 34, "Baku": 210},
+    "Ganja": {"Mingachevir": 34}
 }
 
 coordinates = { 
