@@ -36,20 +36,31 @@ def edit_cargo_order(request, cargo_order_id):
         form = CargoOrderForm(requst.POST, instance=cargo_order)
         if form.is_valid():
             form.save()
-            return redirect('logistics/logistics_list.html')
+            return redirect('logistics_list')
         
     else:
         form = CargoOrderForm(instance=cargo_order)
     return render(request, "logistcs/cargo_edit.html", {"form":form})
 
+def add_cargo(request):
+    if request.method == "POST":
+        form = CargoOrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("logistics_list")
+        
+    else:
+        form = CargoOrderForm()
+
+    return render(request, "logistics/cargo_add.html", {"form":form})
 
 
 def delete_cargo_order(request, cargo_order_id):
     cargo_order = get_object_or_404(CargoOrder, id=cargo_order_id)
     if request.method == "POST":
         cargo_order.delete()
-        return redirect("logistics/logistics_list.html")
-    return render("logistics/cargo_delete.html", {'cargo_order': cargo_order})
+        return redirect("logistics_list")
+    return render(request, "logistics/cargo_delete.html", {'cargo_order':cargo_order})
 
 
 def add_driver(request):
@@ -57,7 +68,7 @@ def add_driver(request):
         form = DriverForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("logistics/logistics_list.html")
+            return redirect("logistics_list")
         
     else:
         form = DriverForm()
@@ -70,9 +81,9 @@ def delete_driver(request, driver_id):
     
     if request.method == "POST":
         driver.delete()
-        return redirect("logistics/logistics_list.html")
+        return redirect("logistics_list")
     
-    return render("logistics/driver_delete.html", {"driver":driver})
+    return render(request, "logistics/driver_delete.html", {"driver":driver})
     
 
 def add_truck(request):
@@ -80,7 +91,7 @@ def add_truck(request):
         form = TruckForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("logistics/logistics_list.html")
+            return redirect("logistics_list")
         
     else:
         form = TruckForm()
@@ -93,9 +104,9 @@ def delete_truck(request, truck_id):
     
     if request.method == "POST":
         truck.delete()
-        return redirect("logistics/logistics_list.html")
+        return redirect("logistics_list")
     
-    return render("logistics/truck_delete.html", {"truck":truck})
+    return render(request, "logistics/truck_delete.html", {"truck":truck})
 
 
 ######################
