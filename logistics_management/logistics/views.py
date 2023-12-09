@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from .models import CargoOrder
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import CargoOrder, Driver, Truck
+from .forms import CargoOrderForm, DriverForm, TruckForm
 from django.contrib.auth.decorators import login_required
 
 @login_required
@@ -29,6 +30,72 @@ def logistics_detail(request, pk):
     return render(request, "logistics/logistics_detail.html", context=context)
 
 
+def edit_cargo_order(request, cargo_order_id):
+    cargo_order = get_object_or_404(CargoOrder, id=cargo_order_id)
+    if request.method == "POST":
+        form = CargoOrderForm(requst.POST, instance=cargo_order)
+        if form.is_valid():
+            form.save()
+            return redirect('logistics/logistics_list.html')
+        
+    else:
+        form = CargoOrderForm(instance=cargo_order)
+    return render(request, "logistcs/cargo_edit.html", {"form":form})
+
+
+
+def delete_cargo_order(request, cargo_order_id):
+    cargo_order = get_object_or_404(CargoOrder, id=cargo_order_id)
+    if request.method == "POST":
+        cargo_order.delete()
+        return redirect("logistics/logistics_list.html")
+    return render("logistics/cargo_delete.html", {'cargo_order': cargo_order})
+
+
+def add_driver(request):
+    if request.method == "POST":
+        form = DriverForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("logistics/logistics_list.html")
+        
+    else:
+        form = DriverForm()
+
+    return render(request, "logistics/driver_add.html", {"form":form})
+
+
+def delete_driver(request, driver_id):
+    driver = get_object_or_404(Driver, id=driver_id)
+    
+    if request.method == "POST":
+        driver.delete()
+        return redirect("logistics/logistics_list.html")
+    
+    return render("logistics/driver_delete.html", {"driver":driver})
+    
+
+def add_truck(request):
+    if request.method == "POST":
+        form = TruckForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("logistics/logistics_list.html")
+        
+    else:
+        form = TruckForm()
+
+    return render(request, "logistics/truck_add.html", {"form":form})
+
+
+def delete_truck(request, truck_id):
+    truck = get_object_or_404(Truck, id=truck_id)
+    
+    if request.method == "POST":
+        truck.delete()
+        return redirect("logistics/logistics_list.html")
+    
+    return render("logistics/truck_delete.html", {"truck":truck})
 
 
 ######################

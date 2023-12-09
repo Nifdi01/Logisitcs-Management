@@ -17,4 +17,4 @@ class DriverForm(forms.ModelForm):
 class TruckForm(forms.ModelForm):
     class Meta:
         model = Truck
-        fields = ['driver', 'license_plate', capacity]
+        fields = ['driver', 'license_plate', 'capacity']
