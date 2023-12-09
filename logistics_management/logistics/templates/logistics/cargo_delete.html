@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="text-gray-600 body-font">
+    <div class="container mx-auto flex px-5 items-center justify-center flex-col">
+      <img class="lg:w-1/6 md:w-2/6 w-3/6 mb-10 mt-20 object-cover object-center rounded" alt="hero"
+              src="{% static 'images/delete.png' %}">
+      <div class="text-center lg:w-2/3 w-full">
+        <h2 class="text-2xl font-bold mb-4">Delete Cargo Order</h2>
+        <p class="mb-4">Are you sure you want to delete the cargo order "{{ cargo_order }}"?</p>
+
+        <form method="post" action="{% url 'delete_cargo_order' cargo_order.id %}">
+            {% csrf_token %}
+            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+            Confirm Delete
+            </button>
+        </form>
+
+        <a href="{% url 'logistics_list' %}" class="text-blue-500 hover:underline">Cancel</a>
+    </div>
+  </section>
+
+  
+
+{% endblock %}
+
+
