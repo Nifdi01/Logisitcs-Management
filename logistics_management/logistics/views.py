@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import CargoOrder, Driver, Truck
-from .forms import CargoOrderForm, DriverForm, TruckForm
+from .forms import AddCargoOrderForm, EditCargoOrderForm, DriverForm, TruckForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 @login_required
 def logistics_list(request):
@@ -32,22 +33,36 @@ def logistics_detail(request, pk):
 
 def edit_cargo_order(request, cargo_order_id):
     cargo_order = get_object_or_404(CargoOrder, id=cargo_order_id)
+
     if request.method == "POST":
-        form = CargoOrderForm(requst.POST, instance=cargo_order)
+        form = EditCargoOrderForm(request.POST, instance=cargo_order)
         if form.is_valid():
+            # Check if the status is changed to 'completed' or 'in queue'
+            new_status = form.cleaned_data['status']
+            if new_status in [CargoOrder.COMPLETED, CargoOrder.IN_QUEUE]:
+                # Get the next order for the same truck
+                next_order = CargoOrder.objects.filter(truck=cargo_order.truck, id__gt=cargo_order.id).order_by('id').first()
+                if next_order:
+                    # Update the status of the next order based on the new status
+                    if new_status == CargoOrder.COMPLETED:
+                        next_order.status = CargoOrder.IN_PROGRESS
+                    elif new_status == CargoOrder.IN_QUEUE:
+                        next_order.status = CargoOrder.IN_PROGRESS
+                    next_order.save()
+
             form.save()
             return redirect('logistics_list')
-        
     else:
-        form = CargoOrderForm(instance=cargo_order)
-    return render(request, "logistcs/cargo_edit.html", {"form":form})
+        form = EditCargoOrderForm(instance=cargo_order)
 
-from django.contrib import messages
+    return render(request, "logistics/cargo_edit.html", {"form": form})
+
 
 def add_cargo(request):
     if request.method == "POST":
-        form = CargoOrderForm(request.POST)
+        form = AddCargoOrderForm(request.POST)
         if form.is_valid():
+            print("Form is valid")
             cargo_order = form.save(commit=False)
             
             # Check if the selected truck can hold the specified load
@@ -66,7 +81,6 @@ def add_cargo(request):
                     else:
                         # If there are existing orders, set status to 'in queue'
                         cargo_order.status = CargoOrder.IN_QUEUE
-
                 cargo_order.save()
                 messages.success(request, "Cargo order added successfully.")
                 return redirect("logistics_list")
@@ -76,7 +90,7 @@ def add_cargo(request):
                 return render(request, "logistics/cargo_add.html", {"form": form, "error_message": error_message})
 
     else:
-        form = CargoOrderForm()
+        form = AddCargoOrderForm()
 
     return render(request, "logistics/cargo_add.html", {"form": form})
 

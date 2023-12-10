@@ -52,8 +52,8 @@
             </p>
           </div>
           <div class="flex mt-2">
-            <a href="{% url "delete_cargo_order" cargo.id %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Delete</a>
-            <a class="flex ml-5 text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Edit</a>
+            <a href="{% url 'delete_cargo_order' cargo.id %}" class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Delete</a>
+            <a href="{% url 'edit_cargo_order' cargo.id %}" class="flex ml-5 text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Edit</a>
           </div>
         </div>
         <img alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded" src="{% static 'images/cargo_detail.svg' %}" />
