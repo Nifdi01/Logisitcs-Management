@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_filters %}
+
+
+<link rel="stylesheet" href="{% static 'css/cargo_add.css' %}">
+
+{% block title %}
+Create Order
+{% endblock %}
+
+{% block content %}
+<section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 px-24 py-10 mx-auto">
+        
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <form method="post" action="{% url 'add_cargo_order' %}" class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+                {% if error_message %}
+                <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50" role="alert">
+                    <span class="font-medium">Error:</span>{{error_message}}
+                  </div>
+                {% endif %}
+                {% csrf_token %}
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Add new Delivery</h1>
+                <div class="flex mb-4">
+                    <p class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Fill the forum</p>
+                </div>
+                <div class="flex border-gray-200 py-2">
+                    <span class="text-gray-500">Truck</span>
+                    <span class="ml-auto text-gray-900">{{form.truck}}</span>
+                </div>
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500 mr-auto w-full">Cargo Load</span>
+                    <span class='ml-auto w-full'>{{form.load|add_tailwind_classes:"ml-auto border-b border-gray-800 text-gray-900 text-sm block w-2/5"}}</span>
+                </div>
+                <div class="flex border-t border-gray-200 py-2">
+                    <span class="text-gray-500">Start Point</span>
+                    <span class="ml-auto text-gray-900">{{form.start_point}}</span>
+                </div>
+                <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <span class="text-gray-500">Destination</span>
+                    <span class="ml-auto text-gray-900">{{form.destination}}</span>
+                </div>
+                <div class="flex mt-2">
+                    <button type="submit"
+                        class="flex ml-5 text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Save</button>
+                </div>
+            </form>
+            <img alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"
+                src="{% static 'images/cargo_detail.svg' %}" />
+        </div>
+    </div>
+</section>
+{% endblock %}

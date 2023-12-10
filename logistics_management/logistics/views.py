@@ -42,17 +42,44 @@ def edit_cargo_order(request, cargo_order_id):
         form = CargoOrderForm(instance=cargo_order)
     return render(request, "logistcs/cargo_edit.html", {"form":form})
 
+from django.contrib import messages
+
 def add_cargo(request):
     if request.method == "POST":
         form = CargoOrderForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("logistics_list")
-        
+            cargo_order = form.save(commit=False)
+            
+            # Check if the selected truck can hold the specified load
+            if cargo_order.truck.capacity >= cargo_order.load:
+                existing_orders = CargoOrder.objects.filter(truck=cargo_order.truck).order_by('-id')
+
+                if not existing_orders.exists():
+                    # No existing orders, set status to 'in progress'
+                    cargo_order.status = CargoOrder.IN_PROGRESS
+                else:
+                    latest_order_status = existing_orders.first().status
+
+                    if latest_order_status == CargoOrder.COMPLETED:
+                        # If the latest order is completed, set status to 'in progress'
+                        cargo_order.status = CargoOrder.IN_PROGRESS
+                    else:
+                        # If there are existing orders, set status to 'in queue'
+                        cargo_order.status = CargoOrder.IN_QUEUE
+
+                cargo_order.save()
+                messages.success(request, "Cargo order added successfully.")
+                return redirect("logistics_list")
+            else:
+                # Handle the case where the truck's capacity is not sufficient
+                error_message = "Selected truck cannot hold the specified load."
+                return render(request, "logistics/cargo_add.html", {"form": form, "error_message": error_message})
+
     else:
         form = CargoOrderForm()
 
-    return render(request, "logistics/cargo_add.html", {"form":form})
+    return render(request, "logistics/cargo_add.html", {"form": form})
+
 
 
 def delete_cargo_order(request, cargo_order_id):
@@ -107,6 +134,19 @@ def delete_truck(request, truck_id):
         return redirect("logistics_list")
     
     return render(request, "logistics/truck_delete.html", {"truck":truck})
+
+
+
+def calculate_travel_time(distance_km):
+    standard_speed_kmh = 80
+
+    time_hours = distance_km / standard_speed_kmh
+
+    hours = int(time_hours)
+    minutes = int((time_hours - hours) * 60)
+
+    return hours, minutes
+
 
 
 ######################

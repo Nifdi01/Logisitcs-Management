@@ -21,7 +21,23 @@ class Truck(models.Model):
 
 
 class CargoOrder(models.Model):
-    truck = models.OneToOneField(Truck, on_delete=models.CASCADE)
+    NOT_STARTED = 'not started'
+    IN_PROGRESS = 'in progress'
+    COMPLETED = 'completed'
+    IN_QUEUE = 'in queue'
+
+    STATUS_CHOICES = [
+        (NOT_STARTED, 'Not Started'),
+        (IN_PROGRESS, 'In Progress'),
+        (COMPLETED, 'Completed'),
+        (IN_QUEUE, 'In Queue'),
+    ]
+    truck = models.ForeignKey(Truck, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=NOT_STARTED
+    )
     DESTINATION_CHOICES = [
         ("Aghdam", "Aghdam"),
         ("Agdash", "Agdash"),
@@ -90,6 +106,8 @@ class CargoOrder(models.Model):
         ("Zardab", "Zardab"),
         ("Zangilan", "Zangilan")
     ]
+    
+    load = models.IntegerField(default=10);
         
     start_point = models.CharField(
         max_length=50,

@@ -10,12 +10,17 @@
         <p class="lg:w-2/3 mx-auto leading-relaxed text-base">You can view all the ongoing operations in this page. For more details click on the details link next to the desired operation.</p>
       </div>
       <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+        <div class="flex mb-3 ">
+          <a href="{% url 'add_cargo_order' %}" class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add Order</a>
+          <!-- <a class="flex ml-5 text-white bg-yellow-500 border-0 py-1 px-4 focus:outline-none hover:bg-yellow-600 rounded"></a> -->
+        </div>
         <table class="table-auto w-full text-left whitespace-no-wrap">
           <thead>
             <tr>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Driver</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">License Plate</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Capacity</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Load</th>
+              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Start Point</th>
               <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Destination</th>
               <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
@@ -26,7 +31,8 @@
             <tr>
               <td class="px-4 py-3">{{cargo.truck.driver}}</td>
               <td class="px-4 py-3">{{cargo.truck}}</td>
-              <td class="px-4 py-3">{{cargo.truck.capacity}}.0 tons</td>
+              <td class="px-4 py-3">{{cargo.load}}.0 tons</td>
+              <td class="px-4 py-3 text-yellow-800 font-medium">{{cargo.status}}</td>
               <td class="px-4 py-3 text-md text-gray-900">{{cargo.start_point}}</td>
               <td class="border-gray-200 px-4 py-3 text-md text-gray-900">{{cargo.destination}}</td>
               <td class="border-gray-200 w-10 pr-5 text-center">

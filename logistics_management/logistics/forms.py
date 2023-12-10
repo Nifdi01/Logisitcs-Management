@@ -5,7 +5,7 @@ from .models import CargoOrder, Driver, Truck
 class CargoOrderForm(forms.ModelForm):
     class Meta:
         model = CargoOrder
-        fields = ['truck', 'start_point', 'destination']
+        fields = ['truck', 'start_point', 'load', 'destination']
         
 
 class DriverForm(forms.ModelForm):
