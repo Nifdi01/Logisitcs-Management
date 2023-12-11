@@ -15,8 +15,18 @@
         <a href="{% url 'add_cargo_order' %}"
           class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add
           Order</a>
-        <!-- <a class="flex ml-5 text-white bg-yellow-500 border-0 py-1 px-4 focus:outline-none hover:bg-yellow-600 rounded"></a> -->
-      </div>
+          <form class="ml-auto mr-5 inline-flex" method="get" action="{% url 'logistics_list' %}">
+            <!-- <label for="status">Filter by Status:</label> -->
+            <select name="status" id="status">
+                <option value="" {% if status_filter == '' %}selected{% endif %}>All</option>
+                <option value="completed" {% if status_filter == 'complete' %}selected{% endif %}>Completed</option>
+                <option value="in progress" {% if status_filter == 'in progress' %}selected{% endif %}>In Progress</option>
+                <option value="in queue" {% if status_filter == 'in queue' %}selected{% endif %}>In Queue</option>
+                <!-- Add more options based on your CargoOrder model's status choices -->
+            </select>
+            <button class="ml-3 flex text-white bg-blue-500 border-0 py-1 px-4 focus:outline-none hover:bg-blue-600 rounded" type="submit">Apply Filter</button>
+          </form>
+        </div>
       <table class="table-auto w-full text-left whitespace-no-wrap">
         <thead>
           <tr>

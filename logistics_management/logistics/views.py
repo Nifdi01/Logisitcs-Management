@@ -5,9 +5,19 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
+
 @login_required
 def logistics_list(request):
-    cargo_list = CargoOrder.objects.all()
+    # Get the filter parameter from the request's GET parameters
+    status_filter = request.GET.get('status', '')
+
+    # Filter cargo orders based on the selected status
+    if status_filter:
+        cargo_list = CargoOrder.objects.filter(status=status_filter)
+        print(status_filter)
+    else:
+        cargo_list = CargoOrder.objects.all()
 
     # Set the number of items per page
     items_per_page = 10
@@ -25,8 +35,7 @@ def logistics_list(request):
         # If the page parameter is out of range, deliver the last page of results
         cargo_list = paginator.page(paginator.num_pages)
 
-    return render(request, "logistics/logistics_list.html", {"cargo_list": cargo_list})
-
+    return render(request, "logistics/logistics_list.html", {"cargo_list": cargo_list, "status_filter": status_filter})
 
 
 @login_required
