@@ -17,17 +17,15 @@ class Truck(models.Model):
     capacity = models.IntegerField()
     
     def __str__(self):
-        return f"{self.license_plate}"
+        return f"{self.license_plate} ({self.capacity}t)"
 
 
 class CargoOrder(models.Model):
-    NOT_STARTED = 'not started'
     IN_PROGRESS = 'in progress'
     COMPLETED = 'completed'
     IN_QUEUE = 'in queue'
 
     STATUS_CHOICES = [
-        (NOT_STARTED, 'Not Started'),
         (IN_PROGRESS, 'In Progress'),
         (COMPLETED, 'Completed'),
         (IN_QUEUE, 'In Queue'),
@@ -36,7 +34,7 @@ class CargoOrder(models.Model):
     status = models.CharField(
         max_length=20,
         choices=STATUS_CHOICES,
-        default=NOT_STARTED
+        default=IN_QUEUE
     )
     DESTINATION_CHOICES = [
         ("Aghdam", "Aghdam"),

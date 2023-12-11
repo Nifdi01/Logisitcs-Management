@@ -4,51 +4,116 @@
 
 {% block content %}
 <section class="text-gray-600 body-font">
-    <div class="container px-5 py-24 mx-auto">
-      <div class="flex flex-col text-center w-full mb-20">
-        <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Logistics</h1>
-        <p class="lg:w-2/3 mx-auto leading-relaxed text-base">You can view all the ongoing operations in this page. For more details click on the details link next to the desired operation.</p>
-      </div>
-      <div class="lg:w-2/3 w-full mx-auto overflow-auto">
-        <div class="flex mb-3 ">
-          <a href="{% url 'add_cargo_order' %}" class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add Order</a>
-          <!-- <a class="flex ml-5 text-white bg-yellow-500 border-0 py-1 px-4 focus:outline-none hover:bg-yellow-600 rounded"></a> -->
-        </div>
-        <table class="table-auto w-full text-left whitespace-no-wrap">
-          <thead>
-            <tr>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">Driver</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">License Plate</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Load</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Start Point</th>
-              <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Destination</th>
-              <th class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for cargo in cargo_list %}  
-            <tr>
-              <td class="px-4 py-3">{{cargo.truck.driver}}</td>
-              <td class="px-4 py-3">{{cargo.truck}}</td>
-              <td class="px-4 py-3">{{cargo.load}}.0 tons</td>
-              <td class="px-4 py-3 text-yellow-800 font-medium">{{cargo.status}}</td>
-              <td class="px-4 py-3 text-md text-gray-900">{{cargo.start_point}}</td>
-              <td class="border-gray-200 px-4 py-3 text-md text-gray-900">{{cargo.destination}}</td>
-              <td class="border-gray-200 w-10 pr-5 text-center">
-                <a href="{% url "logistics_detail" cargo.pk %}" class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2">
-                  Details
-                  <svg class="w-4  h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                  </svg>
-                  <span class="sr-only">Icon description</span>
-                </a>
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+  <div class="container px-5 py-24 mx-auto">
+    <div class="flex flex-col text-center w-full mb-20">
+      <h1 class="sm:text-4xl text-3xl font-medium title-font mb-2 text-gray-900">Logistics</h1>
+      <p class="lg:w-2/3 mx-auto leading-relaxed text-base">You can view all the ongoing operations in this page. For
+        more details click on the details link next to the desired operation.</p>
     </div>
-  </section>
+    <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+      <form class="mb-3" method="get">
+        <div class="flex">
+            <div class="relative w-full">
+                <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search" required>
+                <button type="submit" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                    <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                    <span class="sr-only">Search</span>
+                </button>
+            </div>
+        </div>
+      </form>
+
+      <div class="flex mb-3 ">
+        <a href="{% url 'add_cargo_order' %}"
+          class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add
+          Order</a>
+          <form class="ml-auto mr-5 inline-flex" method="get" action="{% url 'logistics_list' %}">
+            <!-- <label for="status">Filter by Status:</label> -->
+            <select name="status" id="status">
+                <option value="" {% if status_filter == '' %}selected{% endif %}>All</option>
+                <option value="completed" {% if status_filter == 'complete' %}selected{% endif %}>Completed</option>
+                <option value="in progress" {% if status_filter == 'in progress' %}selected{% endif %}>In Progress</option>
+                <option value="in queue" {% if status_filter == 'in queue' %}selected{% endif %}>In Queue</option>
+                <!-- Add more options based on your CargoOrder model's status choices -->
+            </select>
+            <button class="ml-3 flex text-white bg-blue-500 border-0 py-1 px-4 focus:outline-none hover:bg-blue-600 rounded" type="submit">Apply Filter</button>
+          </form>
+        </div>
+      <table class="table-auto w-full text-left whitespace-no-wrap">
+        <thead>
+          <tr>
+            <th
+              class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tl rounded-bl">
+              Driver</th>
+            <th class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Truck</th>
+            <th class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Load</th>
+            <th class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Status</th>
+            <th class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Start Point
+            </th>
+            <th class="px-4 py-2 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">Destination
+            </th>
+            <th
+              class="w-10 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100 rounded-tr rounded-br">
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for cargo in cargo_list %}
+          <tr>
+            <td class="px-4 py-3">{{cargo.truck.driver}}</td>
+            <td class="px-4 w-1/5 py-3">{{cargo.truck}}</td>
+            <td class="px-4 py-3">{{cargo.load}}.0 tons</td>
+            <td class="px-4 py-3 text-yellow-800 font-medium">{{cargo.status}}</td>
+            <td class="px-4 py-3 text-md text-gray-900">{{cargo.start_point}}</td>
+            <td class="border-gray-200 px-4 py-3 text-md text-gray-900">{{cargo.destination}}</td>
+            <td class="border-gray-200 w-10 pr-5 text-center">
+              <a href="{% url "logistics_detail" cargo.pk %}"
+                class="text-white bg-yellow-500 hover:bg-yellow-600 font-medium rounded-lg text-sm p-2 text-center inline-flex items-center me-2">
+                Details
+                <svg class="w-4  h-2 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                  viewBox="0 0 14 10">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9" />
+                </svg>
+                <span class="sr-only">Icon description</span>
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <nav class="mt-5 flex items-center justify-center" aria-label="Page navigation example">
+        <ul class="inline-flex -space-x-px text-sm">
+          {% if cargo_list.has_previous %}
+          <li>
+            <a href="?page={{cargo_list.previous_page_number}}"
+              class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700">Previous</a>
+          </li>
+          {% endif %}
+          {% for number in cargo_list.paginator.page_range %}
+          {% if cargo_list.number == number %}
+          <li>
+            <span
+              class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{number}}</span>
+          </li>
+          {% elif number > cargo_list.number|add:'-3' and number < cargo_list.number|add:'3' %} <a
+            href="?page={{ number }}"
+            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+            {{ number }}</a>
+            {% endif %}
+            {% endfor %}
+
+            {% if cargo_list.has_next %}
+            <li>
+              <a href="?page={{cargo_list.next_page_number}}"
+                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700">Next</a>
+            </li>
+            {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
 {% endblock content %}

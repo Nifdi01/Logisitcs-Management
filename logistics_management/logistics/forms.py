@@ -2,10 +2,15 @@ from django import forms
 from .models import CargoOrder, Driver, Truck
 
 
-class CargoOrderForm(forms.ModelForm):
+class AddCargoOrderForm(forms.ModelForm):
     class Meta:
         model = CargoOrder
-        fields = ['truck', 'start_point', 'load', 'destination']
+        exclude = ['status']
+
+class EditCargoOrderForm(forms.ModelForm):
+    class Meta:
+        model = CargoOrder
+        fields = ['truck', 'start_point', 'load', 'destination', 'status']
         
 
 class DriverForm(forms.ModelForm):
