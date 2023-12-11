@@ -3,11 +3,30 @@ from .models import CargoOrder, Driver, Truck
 from .forms import AddCargoOrderForm, EditCargoOrderForm, DriverForm, TruckForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @login_required
 def logistics_list(request):
     cargo_list = CargoOrder.objects.all()
+
+    # Set the number of items per page
+    items_per_page = 10
+    paginator = Paginator(cargo_list, items_per_page)
+
+    # Get the current page number from the request's GET parameters
+    page = request.GET.get('page')
+
+    try:
+        cargo_list = paginator.page(page)
+    except PageNotAnInteger:
+        # If the page parameter is not an integer, deliver the first page
+        cargo_list = paginator.page(1)
+    except EmptyPage:
+        # If the page parameter is out of range, deliver the last page of results
+        cargo_list = paginator.page(paginator.num_pages)
+
     return render(request, "logistics/logistics_list.html", {"cargo_list": cargo_list})
+
 
 
 @login_required
@@ -21,7 +40,7 @@ def logistics_detail(request, pk):
         "driver": cargo.truck.driver,
         "driver_license": cargo.truck.driver.license_number,
         "truck_plate": cargo.truck,
-        "truck_capacity":cargo.truck.capacity,
+        "truck_load":cargo.load,
         "start_point": cargo.start_point,
         "destination": cargo.destination,
         "shortest_path": shortest_path[1:-1],

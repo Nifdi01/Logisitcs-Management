@@ -23,8 +23,8 @@
             <span class="ml-auto text-gray-900">{{ truck_plate }}</span>
           </div>
           <div class="flex border-t border-b mb-6 border-gray-200 py-2">
-            <span class="text-gray-500">Capacity</span>
-            <span class="ml-auto text-gray-900">{{ truck_capacity }}.0 tons</span>
+            <span class="text-gray-500">Load</span>
+            <span class="ml-auto text-gray-900">{{ truck_load }}.0 tons</span>
           </div>
           <p class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Route</p>
           <div class="border-b p-2 w-2/3">
@@ -56,7 +56,7 @@
             <a href="{% url 'edit_cargo_order' cargo.id %}" class="flex ml-5 text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded">Edit</a>
           </div>
         </div>
-        <img alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded" src="{% static 'images/cargo_detail.svg' %}" />
+        <img alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded" src="{% static 'images/cargo_detail.gif' %}" />
       </div>
     </div>
   </section>
