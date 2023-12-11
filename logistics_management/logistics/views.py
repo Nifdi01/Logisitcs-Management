@@ -44,6 +44,9 @@ def logistics_detail(request, pk):
     shortest_path = astar(graph, cargo.start_point, cargo.destination, coordinates)
     # shortest_path = ["A", "A", "A", "A", "A", "A", "A", ]
     print(shortest_path)
+    hour, minute = calculate_travel_time(int(calculate_cost(shortest_path)))
+    time = f"{hour}h {minute}m"
+    print(time)
     context = {
         "cargo": cargo,
         "driver": cargo.truck.driver,
@@ -53,7 +56,8 @@ def logistics_detail(request, pk):
         "start_point": cargo.start_point,
         "destination": cargo.destination,
         "shortest_path": shortest_path[1:-1],
-        "total_distance": int(calculate_cost(shortest_path))
+        "total_distance": int(calculate_cost(shortest_path)),
+        "travel_time": time,
     }
     
     return render(request, "logistics/logistics_detail.html", context=context)
