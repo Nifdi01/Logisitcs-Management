@@ -94,7 +94,7 @@ class CargoOrder(models.Model):
         ("Shirvan", "Shirvan"),
         ("Siyazan", "Siyazan"),
         ("Shusha", "Shusha"),
-        ("Sumgait", "Sumgait"),
+        ("Sumgayit", "Sumgayit"),
         ("Tartar", "Tartar"),
         ("Tovuz", "Tovuz"),
         ("Ujar", "Ujar"),
