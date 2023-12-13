@@ -255,7 +255,7 @@ graph = {
     "Astara": {"Lankaran": 38.6},    
     "Aghdara": {"Aghdam": 33.3, "Tartar": 40.1},    
     "Babek": {"Julfa": 31.4, "Nakhchivan": 9.3, "Sharur": 69.2},    
-    "Baku": {"Sumgayit": 30.5, "Khirdalan": 15.6, "Shirvan": 130.9, "Hajigabul": 120.0},    
+    "Baku": {"Sumgayit": 30.5, "Khirdalan": 15.6, "Shirvan": 130.9, "Hajigabul": 120.0, "Khachmaz": 162.0},    
     "Balakan": {"Zaqatala": 29.3},    
     "Barda": {"Yevlakh": 30.3, "Agdash": 63.4, "Aghjabadi": 52.6, "Aghdam": 47.3, "Tartar": 20.4},    
     "Beylagan": {"Fuzuli": 71.8, "Aghjabadi": 47.1, "Imishli": 60.7},    
@@ -274,7 +274,7 @@ graph = {
     "Jabrayil": {"Zangilan": 81.2, "Qubadli": 58.0, "Fuzuli": 33.8},    
     "Julfa": {"Ordubad": 39.4, "Nakhchivan": 35.7, "Babek": 31.4},    
     "Kalbajar":{"Dashkasan": 139.9, "Goygol": 97.6, "Khankendi": 120.9},    
-    "Khachmaz": {"Quba": 27.6, "Shabran": 37.2},    
+    "Khachmaz": {"Quba": 27.6, "Shabran": 37.2, "Baku": 162.0},    
     "Khankendi": {"Shusha": 14.3, "Khojavend": 41.2, "Kalbajar": 120.9},    
     "Khojavend": {"Aghdam": 32.8, "Fuzuli": 26.8, "Khankendi": 41.2},    
     "Khirdalan": {"Sumgayit": 20.2, "Baku": 15.6},    
@@ -297,7 +297,7 @@ graph = {
     "Saatli": {"Imishli": 32.5, "Sabirabad": 16.4, "Bilasuvar": 89.3},    
     "Sabirabad": {"Kurdamir": 71.4, "Hajigabul": 56.8, "Shirvan": 46.6, "Bilasuvar": 82.1, "Saatli": 16.4, "Imishli": 40.7},    
     "Shahbuz": {"Nakhchivan": 32.0},    
-    "Shaki": {"Qakh": 38.6, "Oghuz": 41.9, "Agdash": 85.8, "Mingachevir": 74.0, "Qabala": 88.1},
+    "Shaki": {"Qakh": 38.6, "Oghuz": 41.9, "Agdash": 85.8, "Mingachevir": 74.0, "Qabala": 88.1},    
     "Shamakhi": {"Hajigabul": 94.8, "Aghsu": 43.7, "Ismayilli": 54.6},    
     "Shamkir": {"Tovuz": 46.6, "Ganja": 39.9, "Dashkasan": 68.9, "Gadabay": 45.4},    
     "Sharur": {"Babek": 69.2, "Nakhchivan": 62.9},    
@@ -314,6 +314,7 @@ graph = {
     "Zardab": {"Agdash": 66.5, "Ujar": 36.7, "Kurdamir": 64.2, "Imishli": 83.9, "Aghjabadi": 37.5},    
     "Zangilan": {"Qubadli": 56.2, "Jabrayil": 81.2}    
 }
+
 
 coordinates = {
     "Aghdam": (39.9910, 46.9274), 
