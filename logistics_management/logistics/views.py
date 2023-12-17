@@ -7,18 +7,32 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 
 
-
 @login_required
 def logistics_list(request):
-    # Get the filter parameter from the request's GET parameters
+    # Get the search parameter from the request's GET parameters
+    search_query = request.GET.get('search', '')
+
+    # Get the status filter parameter from the request's GET parameters
     status_filter = request.GET.get('status', '')
 
-    # Filter cargo orders based on the selected status
+    # Start with all CargoOrder objects
+    cargo_list = CargoOrder.objects.all()
+
+    # Apply the search filter if it exists
+    if search_query:
+        cargo_list = cargo_list.filter(
+            Q(truck__license_plate__icontains=search_query) |
+            Q(truck__driver__first_name__icontains=search_query) |
+            Q(truck__driver__last_name__icontains=search_query) |
+            Q(start_point__icontains=search_query) |
+            Q(destination__icontains=search_query) |
+            Q(load__icontains=search_query)
+        )
+
+    # Apply the status filter if it exists
     if status_filter:
-        cargo_list = CargoOrder.objects.filter(status=status_filter)
+        cargo_list = cargo_list.filter(status=status_filter)
         print(status_filter)
-    else:
-        cargo_list = CargoOrder.objects.all()
 
     # Set the number of items per page
     items_per_page = 10
@@ -36,7 +50,7 @@ def logistics_list(request):
         # If the page parameter is out of range, deliver the last page of results
         cargo_list = paginator.page(paginator.num_pages)
 
-    return render(request, "logistics/logistics_list.html", {"cargo_list": cargo_list, "status_filter": status_filter})
+    return render(request, "logistics/logistics_list.html", {"cargo_list": cargo_list, "status_filter": status_filter, "search_query": search_query})
 
 
 @login_required
