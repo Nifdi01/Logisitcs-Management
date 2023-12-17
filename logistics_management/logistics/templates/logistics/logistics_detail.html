@@ -64,61 +64,49 @@
         <div id="map" alt="cargo" class="lg:w-1/2 w-full lg:h-auto h-64 object-contain object-center rounded"></div>
         <!-- Add this script to the bottom of your template, after the existing content -->
         <script>
-            console.log("Start Latitude:", {{ start_lat }});
-            console.log("Start Longitude:", {{ start_long }});
-            console.log("End Latitude:", {{ end_lat }});
-            console.log("End Longitude:", {{ end_long }});
+          console.log("Start Latitude:", {{ start_lat }});
+          console.log("Start Longitude:", {{ start_long }});
+          console.log("End Latitude:", {{ end_lat }});
+          console.log("End Longitude:", {{ end_long }});
+      
           function initMap() {
-            const map = new google.maps.Map(document.getElementById('map'), {
-              center: { lat: 40.44808, lng: 49.75502 }, // Set the center to the coordinates of Khirdalan or any desired starting point
-              zoom: 10, // Adjust the zoom level as needed
-            });
-        
-            // Get the path_coordinates from the Django context
-            const directionsService = new google.maps.DirectionsService();
-            const directionsRenderer = new google.maps.DirectionsRenderer({
-              map: map,
-              suppressMarkers: true, // Suppress default markers
-            });
-        
-            // Replace with your actual start and end points
-            const start = { lat: parseFloat({{start_lat}}), lng: parseFloat({{start_long}}) };
-            const end = { lat: parseFloat({{end_lat}}), lng: parseFloat({{end_long}}) };
-        
-            // Set up the request for the Directions Service
-            const request = {
-              origin: start,
-              destination: end,
-              travelMode: google.maps.TravelMode.DRIVING,
-            };
-        
-            // Make the request to the Directions API
-            directionsService.route(request, function (response, status) {
-              if (status == google.maps.DirectionsStatus.OK) {
-                // Get the detailed route coordinates from the response
-                const pathCoordinates = response.routes[0].overview_path.map(point => ({
-                  lat: point.lat(),
-                  lng: point.lng(),
-                }));
-        
-                // Create a Polyline to represent the route on the map
-                const path = new google.maps.Polyline({
-                  path: pathCoordinates,
+              const map = new google.maps.Map(document.getElementById('map'), {
+                  center: { lat: {{ start_lat }}, lng: {{ start_long }} }, // Set the center to the starting point
+                  zoom: 8, // Adjust the zoom level as needed
+              });
+      
+              // Get the city_coordinates from the Django context
+              const cityCoordinates = [
+                  { lat: {{ start_lat }}, lng: {{ start_long }}, title: "{{ start_point }}" }, // Start point
+                  // Use the city_coordinates variable generated in the Django view
+                  {% for point in city_coordinates %}
+                      { lat: {{ point.lat }}, lng: {{ point.lng }}, title: "{{ point }}" },
+                  {% endfor %}
+                  { lat: {{ end_lat }}, lng: {{ end_long }}, title: "{{ destination }}" } // End point
+              ];
+      
+              // Create a Polyline to represent the route on the map
+              const path = new google.maps.Polyline({
+                  path: cityCoordinates,
                   geodesic: true,
-                  strokeColor: '#0E86D4',
+                  strokeColor: '#0E06FF',
                   strokeOpacity: 1.0,
                   strokeWeight: 4,
-                });
-        
-                // Set the Polyline on the map
-                path.setMap(map);
-              } else {
-                console.error('Directions request failed. Status:', status);
-              }
-            });
+              });
+      
+              // Set the Polyline on the map
+              path.setMap(map);
+      
+              // Add markers for each coordinate
+              cityCoordinates.forEach(coord => {
+                  const marker = new google.maps.Marker({
+                      position: { lat: coord.lat, lng: coord.lng },
+                      map: map,
+                      title: coord.title,  // Set the title from the coordinate data
+                  });
+              });
           }
-        </script>
-        
+        </script>        
         <!-- Include the Google Maps API script with your API key -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFniygO5gJJT9y7xgC3CRm2NoZz0a_2Ak&callback=initMap" async defer></script>
 
