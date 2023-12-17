@@ -25,10 +25,16 @@
         </div>
       </form>
 
-      <div class="flex mb-3 ">
+      <div class="flex mb-3">
         <a href="{% url 'add_cargo_order' %}"
-          class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add
+          class="flex text-white bg-green-500 border-0 py-1 px-4 mr-2 focus:outline-none hover:bg-green-600 rounded">Add
           Order</a>
+        <a href="{% url 'add_driver' %}"
+          class="flex text-white bg-green-500 border-0 py-1 px-4 mr-2 focus:outline-none hover:bg-green-600 rounded">Add
+          Driver</a>
+        <a href="{% url 'add_truck' %}"
+          class="flex text-white bg-green-500 border-0 py-1 px-4 focus:outline-none hover:bg-green-600 rounded">Add
+          Truck</a>
           <form class="ml-auto inline-flex" method="get" action="{% url 'logistics_list' %}">
             <!-- <label for="status">Filter by Status:</label> -->
             <select name="status" id="status">

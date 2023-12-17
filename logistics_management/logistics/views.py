@@ -148,16 +148,21 @@ def delete_cargo_order(request, cargo_order_id):
 
 
 def add_driver(request):
+    error_message = None
+
     if request.method == "POST":
         form = DriverForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect("logistics_list")
-        
+            if not Driver.objects.filter(license_number=form.cleaned_data['license_number']).exists():
+                form.save()
+                return redirect("logistics_list")
+            else:
+                error_message = 'Driver with the same details already exists.'
     else:
         form = DriverForm()
 
-    return render(request, "logistics/driver_add.html", {"form":form})
+    return render(request, "logistics/driver_add.html", {"form": form, "error_message": error_message})
+
 
 
 def delete_driver(request, driver_id):
@@ -259,7 +264,7 @@ graph = {
     "Astara": {"Lankaran": 38.6},
     "Aghdara": {"Aghdam": 33.3, "Tartar": 40.1},
     "Babek": {"Julfa": 31.4, "Nakhchivan": 9.3, "Sharur": 69.2},
-    "Baku": {"Sumgayit": 30.5, "Khirdalan": 15.6, "Shirvan": 130.9, "Hajigabul": 120.0, "Siyazan": 104.7},
+    "Baku": {"Sumgayit": 30.5, "Khirdalan": 15.6, "Shirvan": 130.9, "Hajigabul": 120.0},
     "Balakan": {"Zaqatala": 29.3},
     "Barda": {"Yevlakh": 30.3, "Agdash": 63.4, "Aghjabadi": 52.6, "Aghdam": 47.3, "Tartar": 20.4},
     "Beylagan": {"Fuzuli": 71.8, "Aghjabadi": 47.1, "Imishli": 60.7},
@@ -310,7 +315,7 @@ graph = {
     "Shirvan": {"Hajigabul": 15.8, "Sabirabad": 46.6, "Baku": 130.9, "Ismayilli": 164.1},
     "Siyazan": {"Shabran": 20.8, "Xizi": 33.5},
     "Shusha": {"Khankendi": 14.3},
-    "Sumgayit": {"Baku": 30.5, "Khirdalan": 20.2},
+    "Sumgayit": {"Baku": 30.5, "Khirdalan": 20.2, "Xizi": 44.1},
     "Tartar": {"Aghdara": 36.4, "Aghdam": 49.5, "Barda": 20.4},
     "Tovuz": {"Aghstafa": 21.8, "Shamkir": 46.6, "Gadabay": 82.6},
     "Ujar": {"Agdash": 34.5, "Goychay": 19.2, "Kurdamir": 53.6, "Zardab": 36.7},
