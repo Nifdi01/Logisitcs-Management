@@ -11,7 +11,7 @@
         more details click on the details link next to the desired operation.</p>
     </div>
     <div class="lg:w-2/3 w-full mx-auto overflow-auto">
-      <form class="mb-3" method="get">
+      <form class="mb-3" method="get" action="{url 'logistics_list'}">
         <div class="flex">
             <div class="relative w-full">
                 <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Search" required>
@@ -25,11 +25,17 @@
         </div>
       </form>
 
-      <div class="flex mb-3 ">
+      <div class="flex mb-3">
         <a href="{% url 'add_cargo_order' %}"
-          class="flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-600 rounded">Add
+          class="flex text-white bg-green-500 border-0 py-1 px-4 mr-2 focus:outline-none hover:bg-green-600 rounded">Add
           Order</a>
-          <form class="ml-auto mr-5 inline-flex" method="get" action="{% url 'logistics_list' %}">
+        <a href="{% url 'add_driver' %}"
+          class="flex text-white bg-green-500 border-0 py-1 px-4 mr-2 focus:outline-none hover:bg-green-600 rounded">Add
+          Driver</a>
+        <a href="{% url 'add_truck' %}"
+          class="flex text-white bg-green-500 border-0 py-1 px-4 focus:outline-none hover:bg-green-600 rounded">Add
+          Truck</a>
+          <form class="ml-auto inline-flex" method="get" action="{% url 'logistics_list' %}">
             <!-- <label for="status">Filter by Status:</label> -->
             <select name="status" id="status">
                 <option value="" {% if status_filter == '' %}selected{% endif %}>All</option>

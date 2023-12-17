@@ -58,6 +58,8 @@ class CargoOrder(models.Model):
         ("Goranboy", "Goranboy"),
         ("Goychay", "Goychay"),
         ("Goygol", "Goygol"),
+        ("Gilazi", "Gilazi"),
+        ("Gobustan", "Gobustan"),
         ("Hajigabul", "Hajigabul"),
         ("Imishli", "Imishli"),
         ("Ismayilli", "Ismayilli"),
