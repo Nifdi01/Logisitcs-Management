@@ -323,7 +323,7 @@ graph = {
     "Sabirabad": {"Kurdamir": 71.4, "Hajigabul": 56.8, "Shirvan": 46.6, "Bilasuvar": 82.1, "Saatli": 16.4, "Imishli": 40.7},
     "Shahbuz": {"Nakhchivan": 32.0},
     "Shaki": {"Qakh": 38.6, "Oghuz": 41.9, "Agdash": 85.8, "Mingachevir": 74.0, "Qabala": 88.1},
-    "Shamakhi": {"Hajigabul": 94.8, "Aghsu": 43.7, "Ismayilli": 54.6},
+    "Shamakhi": {"Hajigabul": 94.8, "Aghsu": 43.7, "Ismayilli": 54.6, "Gobustan":31.4},
     "Shamkir": {"Tovuz": 46.6, "Ganja": 39.9, "Dashkasan": 68.9, "Gadabay": 45.4},
     "Sharur": {"Babek": 69.2, "Nakhchivan": 62.9},
     "Shirvan": {"Hajigabul": 15.8, "Sabirabad": 46.6, "Baku": 130.9, "Ismayilli": 164.1},
