@@ -56,10 +56,10 @@ def logistics_list(request):
 @login_required
 def logistics_detail(request, pk):
     cargo = CargoOrder.objects.get(pk=pk)
-    shortest_path = astar(graph, cargo.start_point, cargo.destination, coordinates)
+    shortest_path = astar(Azerbaijan, cargo.start_point, cargo.destination, coordinates)
     # shortest_path = ["A", "A", "A", "A", "A", "A", "A", ]
     print(shortest_path)
-    hour, minute = calculate_travel_time(int(calculate_cost(shortest_path)))
+    hour, minute = calculate_travel_time(int(route_cost(shortest_path)))
     time = f"{hour}h {minute}m"
     print(time)
     city_coordinates = [
@@ -76,7 +76,7 @@ def logistics_detail(request, pk):
         "start_point": cargo.start_point,
         "destination": cargo.destination,
         "shortest_path": shortest_path[1:-1],
-        "total_distance": int(calculate_cost(shortest_path)),
+        "total_distance": int(route_cost(shortest_path)),
         "travel_time": time,
         "city_coordinates": city_coordinates,
         "start_lat": coordinates[shortest_path[0]][0],
@@ -237,39 +237,39 @@ def heuristic(start_point, destination, coordinates):
     x2, y2 = coordinates[destination]
     return math.sqrt((x1 - x2)**2 + (y1 - y2)**2)
 
-def astar(graph, start_point, destination, coordinates):
+def astar(Azerbaijan, start_point, destination, coordinates):
     priority_queue = []
     heapq.heappush(priority_queue, (0, start_point, []))
-    visited = set()
+    visited_city = set()
 
     while priority_queue:
-        cost, current, path = heapq.heappop(priority_queue)
-        print(cost)
+        distance, current, route = heapq.heappop(priority_queue)
+        print(distance)
 
-        if current in visited:
+        if current in visited_city:
             continue
 
-        path = path + [current]
-        visited.add(current)
+        route = route + [current]
+        visited_city.add(current)
 
         if current == destination:
-            return path
+            return route
 
-        for neighbor, edge_weight in graph[current].items():
-            if neighbor not in visited:
-                new_cost = cost + edge_weight
-                priority = new_cost + heuristic(current, neighbor, coordinates)
-                heapq.heappush(priority_queue, (priority, neighbor, path))
+        for neighbor_city, distance_to_neighbor_city in Azerbaijan[current].items():
+            if neighbor_city not in visited_city:
+                new_distance = distance + distance_to_neighbor_city
+                priority = new_distance + heuristic(current, neighbor_city, coordinates)
+                heapq.heappush(priority_queue, (priority, neighbor_city, route))
 
     return None
 
 
-def calculate_cost(shortest_path):
-    total_distance = sum(graph[shortest_path[i]][shortest_path[i + 1]] for i in range(len(shortest_path) - 1))
+def route_cost(shortest_route):
+    total_distance = sum(Azerbaijan[shortest_route[city]][shortest_route[city + 1]] for city in range(len(shortest_route) - 1))
     return total_distance
     
 
-graph = {
+Azerbaijan = {
     "Aghdam": {"Tartar": 49.5, "Aghdara": 36.4, "Barda": 47.3, "Aghjabadi": 47.9, "Khojavend": 32.8, "Khankendi":25.5},
     "Agdash": {"Shaki": 85.8, "Qabala": 57.2, "Goychay": 27.6, "Ujar": 34.5, "Zardab": 66.5, "Barda": 63.4, "Yevlakh": 38.6, "Mingachevir": 40.5},
     "Aghjabadi": {"Aghdam": 47.9, "Barda": 52.6, "Zardab": 37.5, "Beylagan": 47.1, "Fuzuli": 112.0},
